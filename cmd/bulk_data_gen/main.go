@@ -22,6 +22,7 @@ import (
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/dashboard"
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/devops"
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/iot"
+	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/vehicle"
 	"log"
 	"os"
 	"runtime/pprof"
@@ -167,6 +168,15 @@ func main() {
 
 			SmartHomeCount:  scaleVar,
 			SmartHomeOffset: scaleVarOffset,
+		}
+		sim = cfg.ToSimulator()
+	case common.UseCaseChoices[3]:
+		cfg := &vehicle.VehicleSimulatorConfig{
+			Start: timestampStart,
+			End:   timestampEnd,
+
+			VehicleCount:  scaleVar,
+			VehicleOffset: scaleVarOffset,
 		}
 		sim = cfg.ToSimulator()
 	default:
