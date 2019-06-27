@@ -22,7 +22,7 @@ import (
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/dashboard"
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/devops"
 	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/iot"
-	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/vehicle"
+	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/vehicle"
 	"log"
 	"os"
 	"runtime/pprof"
