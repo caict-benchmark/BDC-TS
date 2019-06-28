@@ -3,7 +3,7 @@ package common
 import (
 	"encoding/binary"
 	"fmt"
-	"github.com/influxdata/influxdb-comparisons/timescale_serializaition"
+	"github.com/gdchaochao/influxdb-comparisons/timescale_serializaition"
 	"io"
 	"log"
 	"reflect"

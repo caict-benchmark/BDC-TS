@@ -21,7 +21,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/influxdb-comparisons/util/report"
+	"github.com/gdchaochao/influxdb-comparisons/util/report"
 )
 
 // Program option vars:

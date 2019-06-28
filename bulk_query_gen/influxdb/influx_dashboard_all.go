@@ -2,7 +2,7 @@ package influxdb
 
 import "time"
 import (
-	bulkQuerygen "github.com/influxdata/influxdb-comparisons/bulk_query_gen"
+	bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
 )
 
 // InfluxDashboardAll produces Influx-specific queries for the dashboard single-host case.

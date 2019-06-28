@@ -2,8 +2,8 @@ package dashboard
 
 import (
 	"fmt"
-	. "github.com/influxdata/influxdb-comparisons/bulk_data_gen/common"
-	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/devops"
+	. "github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
+	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/devops"
 	"math/rand"
 	"time"
 )

@@ -1,7 +1,7 @@
 package influxdb
 
 import "time"
-import bulkQuerygen "github.com/influxdata/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
 
 // InfluxDevopsGroupby produces Influx-specific queries for the devops groupby case.
 type InfluxDevopsGroupby struct {

@@ -2,8 +2,8 @@ package cassandra
 
 import (
 	"fmt"
-	bulkDataGenIot "github.com/influxdata/influxdb-comparisons/bulk_data_gen/iot"
-	bulkQuerygen "github.com/influxdata/influxdb-comparisons/bulk_query_gen"
+	bulkDataGenIot "github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/iot"
+	bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
 	"math/rand"
 	"strings"
 	"time"

@@ -14,7 +14,7 @@ import (
 	"encoding/gob"
 	"flag"
 	"fmt"
-	"github.com/influxdata/influxdb-comparisons/util/report"
+	"github.com/gdchaochao/influxdb-comparisons/util/report"
 	"io"
 	"log"
 	"os"

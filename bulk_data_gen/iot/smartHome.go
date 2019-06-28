@@ -2,7 +2,7 @@ package iot
 
 import (
 	"fmt"
-	. "github.com/influxdata/influxdb-comparisons/bulk_data_gen/common"
+	. "github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
 	"math/rand"
 	"time"
 )

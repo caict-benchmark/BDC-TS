@@ -14,8 +14,8 @@ import (
 	"time"
 
 	"github.com/gocql/gocql"
-	"github.com/influxdata/influxdb-comparisons/bulk_data_gen/common"
-	"github.com/influxdata/influxdb-comparisons/util/report"
+	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
+	"github.com/gdchaochao/influxdb-comparisons/util/report"
 	"strconv"
 	"strings"
 )

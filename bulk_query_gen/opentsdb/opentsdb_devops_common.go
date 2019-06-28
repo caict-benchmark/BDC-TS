@@ -3,7 +3,7 @@ package opentsdb
 import (
 	"bytes"
 	"fmt"
-	bulkQuerygen "github.com/influxdata/influxdb-comparisons/bulk_query_gen"
+	bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
 	"math/rand"
 	"net/url"
 	"strings"

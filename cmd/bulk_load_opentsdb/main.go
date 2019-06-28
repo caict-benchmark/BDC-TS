@@ -15,7 +15,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/influxdata/influxdb-comparisons/util/report"
+	"github.com/gdchaochao/influxdb-comparisons/util/report"
 	"github.com/klauspost/compress/gzip"
 	"github.com/pkg/profile"
 )

@@ -19,7 +19,7 @@ import (
 	"time"
 
 	"context"
-	"github.com/influxdata/influxdb-comparisons/util/report"
+	"github.com/gdchaochao/influxdb-comparisons/util/report"
 	"github.com/jackc/pgx"
 	"strconv"
 	"strings"
