@@ -1,7 +1,7 @@
 package devops
 
 import (
-	. "github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
+	. "github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
 	"math/rand"
 	"time"
 )

@@ -22,7 +22,7 @@ import (
 	"time"
 
 	"bytes"
-	"github.com/gdchaochao/influxdb-comparisons/util/report"
+	"github.com/caict-benchmark/BDC-TS/util/report"
 	"io/ioutil"
 )
 

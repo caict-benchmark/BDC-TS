@@ -15,14 +15,14 @@ import (
 	"sync"
 	"time"
 
-	"github.com/gdchaochao/influxdb-comparisons/util/report"
+	"github.com/caict-benchmark/BDC-TS/util/report"
 	"github.com/jackc/pgx"
 
 	"bytes"
 	"context"
 	"encoding/binary"
-	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
-	"github.com/gdchaochao/influxdb-comparisons/timescale_serializaition"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
+	"github.com/caict-benchmark/BDC-TS/timescale_serializaition"
 	"io"
 )
 

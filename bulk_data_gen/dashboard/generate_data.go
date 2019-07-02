@@ -1,8 +1,8 @@
 package dashboard
 
 import (
-	. "github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
-	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/devops"
+	. "github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/devops"
 	"time"
 )
 

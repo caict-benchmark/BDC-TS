@@ -1,7 +1,7 @@
 package elasticsearch
 
 import "time"
-import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 
 // ElasticSearchDevopsSingleHost12hr produces ES-specific queries for the devops single-host case.
 type ElasticSearchDevopsSingleHost12hr struct {

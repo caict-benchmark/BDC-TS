@@ -1,7 +1,7 @@
 package timescaledb
 
 import "time"
-import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 
 // TimescaleDevopsGroupby produces Timescale-specific queries for the devops groupby case.
 type TimescaleDevopsGroupby struct {

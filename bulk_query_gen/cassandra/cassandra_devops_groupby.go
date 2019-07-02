@@ -1,7 +1,7 @@
 package cassandra
 
 import "time"
-import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 
 // CassandraDevopsGroupby produces Cassandra-specific queries for the devops groupby case.
 type CassandraDevopsGroupby struct {

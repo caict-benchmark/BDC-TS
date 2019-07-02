@@ -37,7 +37,7 @@ export GOPATH=/usr/local/go  # 指定工程目录，随便指定一个地方
 #### 安装生成数据工具
 
 ```powershell
-go get github.com/gdchaochao/influxdb-comparisons/cmd/bulk_data_gen
+go get github.com/caict-benchmark/BDC-TS/cmd/bulk_data_gen
 ```
 
 #### 安装导入数据工具
@@ -45,13 +45,13 @@ go get github.com/gdchaochao/influxdb-comparisons/cmd/bulk_data_gen
 导入数据需要根据你基于的数据库不同，安装不同的导入工具
 ```powershell
 # influx
-go get github.com/gdchaochao/influxdb-comparisons/cmd/bulk_load_influx
+go get github.com/caict-benchmark/BDC-TS/cmd/bulk_load_influx
 
 # ES
-go get github.com/gdchaochao/influxdb-comparisons/cmd/bulk_load_es
+go get github.com/caict-benchmark/BDC-TS/cmd/bulk_load_es
 
 # OPENTSDB
-go get github.com/gdchaochao/influxdb-comparisons/cmd/bulk_load_opentsdb
+go get github.com/caict-benchmark/BDC-TS/cmd/bulk_load_opentsdb
 ```
 
 

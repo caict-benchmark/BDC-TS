@@ -10,7 +10,7 @@ import (
 	"encoding/json"
 	"flag"
 	"fmt"
-	"github.com/gdchaochao/influxdb-comparisons/bulk_data_gen/common"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
 	"io/ioutil"
 	"log"
 	"net/http"
@@ -21,7 +21,7 @@ import (
 	"text/template"
 	"time"
 
-	"github.com/gdchaochao/influxdb-comparisons/util/report"
+	"github.com/caict-benchmark/BDC-TS/util/report"
 	"github.com/valyala/fasthttp"
 	"strconv"
 )

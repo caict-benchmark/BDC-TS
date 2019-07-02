@@ -1,7 +1,7 @@
 package influxdb
 
 import "time"
-import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 
 // InfluxDevopsSingleHost produces Influx-specific queries for the devops single-host case.
 type InfluxDevopsSingleHost struct {

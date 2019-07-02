@@ -3,7 +3,7 @@ package influxdb
 import "time"
 import (
 	"fmt"
-	bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+	bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 )
 
 // InfluxDashboardDiskUtilization produces Influx-specific queries for the dashboard single-host case.

@@ -1,7 +1,7 @@
 package mongodb
 
 import "time"
-import bulkQuerygen "github.com/gdchaochao/influxdb-comparisons/bulk_query_gen"
+import bulkQuerygen "github.com/caict-benchmark/BDC-TS/bulk_query_gen"
 
 // MongoIotSingleHost produces Mongo-specific queries for the devops single-host case.
 type MongoIotSingleHost struct {

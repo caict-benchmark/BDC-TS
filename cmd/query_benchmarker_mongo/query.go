@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"github.com/gdchaochao/influxdb-comparisons/bulk_query_gen/mongodb"
+	"github.com/caict-benchmark/BDC-TS/bulk_query_gen/mongodb"
 )
 
 // Query holds Mongo BSON request data, typically decoded from the program's
