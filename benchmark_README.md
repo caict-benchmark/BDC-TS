@@ -70,7 +70,17 @@ go get github.com/caict-benchmark/BDC-TS/cmd/bulk_load_opentsdb
 ```powershell
 $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=influx-bulk | gzip > influx_bulk_records__usecase_vehicle__scalevar_1__seed_123.gz
 ```
---use-case  必须为vehicle
+use-case：指的是用例名，这里使用的vehicle，也就是我们制定的新能源汽车的时序数据库标准  
+scalevar：定义有多少个设备同时上报，这里按照约定是20000个vehicle同时上报数据，所以是 20000  
+format： 这里选择诸如es-bulk, influx-bulk...  
+timestamp-start：
+timestamp-end：产生是数据每秒一条，需要产生多少秒数据，请用timestamp-end减去timestamp-start得出
+  
+如，20000个设备产生1秒的数据应该使用以下命令
+```powershell
+$GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=20000 --format=es-bulk --timestamp-start=2008-01-01T08:00:00Z --timestamp-end=2008-01-01T08:00:01Z | gzip > es_bulk_records_usecase_vehicle__scalevar_20000_seed_123.gz
+```  
+
 
 #### 边生成数据边导入数据库
 以influx为例（其他数据库替换工具名即可）
@@ -91,6 +101,7 @@ TODO
 TODO
 
 ### 测试结束后清理数据
+以influx为例，其他的DB的清理方法欢迎补充
 ```powershell
 curl 'http://localhost:8086/query?q=drop%20database%20benchmark_db'
 ```

@@ -65,12 +65,12 @@ func init() {
 	flag.StringVar(&format, "format", formatChoices[0], fmt.Sprintf("Format to emit. (choices: %s)", strings.Join(formatChoices, ", ")))
 
 	flag.StringVar(&useCase, "use-case", common.UseCaseChoices[0], fmt.Sprintf("Use case to model. (choices: %s)", strings.Join(common.UseCaseChoices, ", ")))
-	flag.Int64Var(&scaleVar, "scale-var", 1, "Scaling variable specific to the use case.")
+	flag.Int64Var(&scaleVar, "scale-var", 20000, "Scaling variable specific to the use case.")
 	flag.Int64Var(&scaleVarOffset, "scale-var-offset", 0, "Scaling variable offset specific to the use case.")
 	flag.DurationVar(&samplingInterval, "sampling-interval", vehicle.EpochDuration, "Simulated sampling interval.")
 
-	flag.StringVar(&timestampStartStr, "timestamp-start", common.DefaultDateTimeStart, "Beginning timestamp (RFC3339).")
-	flag.StringVar(&timestampEndStr, "timestamp-end", common.DefaultDateTimeEnd, "Ending timestamp (RFC3339).")
+	flag.StringVar(&timestampStartStr, "timestamp-start", vehicle.DefaultVehicleDateTimeStart, "Beginning timestamp (RFC3339).")
+	flag.StringVar(&timestampEndStr, "timestamp-end", common.DefaultVehicleDateTimeEnd, "Ending timestamp (RFC3339).")
 
 	flag.Int64Var(&seed, "seed", 0, "PRNG seed (default, or 0, uses the current timestamp).")
 	flag.IntVar(&debug, "debug", 0, "Debug printing (choices: 0, 1, 2) (default 0).")
