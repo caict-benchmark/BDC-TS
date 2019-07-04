@@ -70,7 +70,7 @@ func init() {
 	flag.DurationVar(&samplingInterval, "sampling-interval", vehicle.EpochDuration, "Simulated sampling interval.")
 
 	flag.StringVar(&timestampStartStr, "timestamp-start", vehicle.DefaultVehicleDateTimeStart, "Beginning timestamp (RFC3339).")
-	flag.StringVar(&timestampEndStr, "timestamp-end", common.DefaultVehicleDateTimeEnd, "Ending timestamp (RFC3339).")
+	flag.StringVar(&timestampEndStr, "timestamp-end", vehicle.DefaultVehicleDateTimeEnd, "Ending timestamp (RFC3339).")
 
 	flag.Int64Var(&seed, "seed", 0, "PRNG seed (default, or 0, uses the current timestamp).")
 	flag.IntVar(&debug, "debug", 0, "Debug printing (choices: 0, 1, 2) (default 0).")
