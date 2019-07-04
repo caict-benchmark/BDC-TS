@@ -70,12 +70,12 @@ go get github.com/caict-benchmark/BDC-TS/cmd/bulk_load_opentsdb
 ```powershell
 $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=influx-bulk | gzip > influx_bulk_records__usecase_vehicle__scalevar_1__seed_123.gz
 ```
-use-case：指的是用例名，这里使用的vehicle，也就是我们制定的新能源汽车的时序数据库标准  
-scalevar：定义有多少个设备同时上报，这里按照约定是20000个vehicle同时上报数据，所以是 20000  
-format： 这里选择诸如es-bulk, influx-bulk...  
-timestamp-start：
-timestamp-end：产生是数据每秒一条，需要产生多少秒数据，请用timestamp-end减去timestamp-start得出
-  
+use-case：这里使用的vehicle，也就是BDC-TS标准，请不要修改  
+scalevar：定义有多少个设备同时上报，BDC-TS案例中约定20000或者20个车辆  
+format： 写es、influx、opentsdb等，根据实际填入  
+timestamp-start：数据开始时间 格式诸如 2008-01-01T08:00:01Z  
+timestamp-end：数据结束时间 格式诸如 2008-01-01T08:00:01Z  
+
 如，20000个设备产生1秒的数据应该使用以下命令
 ```powershell
 $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=20000 --format=es-bulk --timestamp-start=2008-01-01T08:00:00Z --timestamp-end=2008-01-01T08:00:01Z | gzip > es_bulk_records_usecase_vehicle__scalevar_20000_seed_123.gz
@@ -91,7 +91,7 @@ $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=i
 ### 导入数据
 以influx为例（其他数据库替换工具名即可）
 ```powershell
-cat influx_bulk_records__usecase_vehicle__scalevar_1__seed_123.gz | gunzip | ./bulk_load_influx --batch-size=5000 --workers=2
+cat influx_bulk_records__usecase_vehicle__scalevar_1__seed_123.gz | gunzip | $GOPATH/bin/bulk_load_influx --batch-size=5000 --workers=2
 ```
 
 ### 生成查询语句
@@ -106,36 +106,23 @@ TODO
 curl 'http://localhost:8086/query?q=drop%20database%20benchmark_db'
 ```
 
-### 工具参数说明
-TODO   
-具体参数说明后续会补充完整
-
 ## 时序数据库基准测试案例
-
+测试方案(CTSDB最佳实践)：https://github.com/caict-benchmark/BDC-TS/blob/master/practices/CTSDB_Tencent/README.md
 ### 实时数据集
 测点数：60个指标*20,000辆车=1,200,000个测点  
 数据生成间隔：1s（每个测点每隔1s产生一条数据，时间戳精确到毫秒，保证每秒有120万条数据生成）   
 方式一：每隔一秒生成一个数据文件  
 方式二：直接调用数据库接口写入  
 
-测试方案(如何使用该工具完成案例)：
-TODO
-
 ### 历史数据集1（测点少）
 数据生成在一个csv文件中，数据总量约1TB  
 测点数：60个指标*20辆车=1,200个测点  
 数据生成间隔：N（每个测点每隔N时间产生一条数据，时间戳精确到毫秒，数据周期持续1年） 
 
-测试方案(如何使用该工具完成案例)：
-TODO
-
 ### 历史数据集2（测点多）
 数据生成在一个csv文件中，数据总量约1TB  
 测点数：60个指标*20,000辆车=1,200,000个测点  
 数据生成间隔：1s（每个测点每隔1s产生一条数据，时间戳精确到毫秒，数据周期持续M时间）  
-
-测试方案(如何使用该工具完成案例)：
-TODO
 
 
 ## 自定义数据库
