@@ -8,7 +8,7 @@ import (
 
 var (
 	// The duration of a log epoch.
-	EpochDuration = 60 * time.Second
+	EpochDuration = 1 * time.Second
 
 	// Tag fields common to all inside sensors:
 	RoomTagKey = []byte("room_id")
