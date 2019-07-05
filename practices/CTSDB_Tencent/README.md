@@ -24,7 +24,7 @@ $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=20000 --form
   
 但是，由于测试需要持续一段时间，比如1小时，需要产生3600个1秒的数据。所以使用上面的命令逐秒生成数据效率太低，需要借助脚本批量生成。脚本地址./practices/CTSDB_TENCENT/gen_data.sh，调用脚本命令：
 ```powershell
-sh gen_data.sh --sec 3600 --output ./data --scale 20000 --interval 1 --format es
+sh gen_data.sh --sec 3600 --output ./data_2000 --scale 20000 --interval 1 --format es
 ```
 --sec 是发送多长时间的数据  
 --format 是你使用的数据库类型，如es、influx
