@@ -61,7 +61,7 @@ if [[ -z "$_SLEEP" ]]; then
     _SLEEP=0
 fi
 
-for file in ${_INPUT}/es_seed_123_*
+for file in ${_INPUT}/${_FORMAT}_seed_123_*
 do
     echo ${file}
     cat ${_INPUT}/${file} | gunzip | $GOPATH/bin/bulk_load_${_FORMAT} --batch-size=${_BATCH_SIZE} --workers=${_WORKERS} > ${_INPUT}/load_log 2>&1 &

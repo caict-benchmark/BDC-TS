@@ -24,6 +24,14 @@ do
         _FORMAT=$2
         shift
         ;;
+    --interval)
+        _INTERVAL=$2
+        shift
+        ;;
+    --scale)
+        _SCALE=$2
+        shift
+        ;;
     *)
         echo "$1 is not an option"
         exit
@@ -48,17 +56,28 @@ if [[ -z "$_FORMAT" ]]; then
 fi
 echo "Format is：$_FORMAT"
 
+if [[ -z "$_INTERVAL" ]]; then
+    _INTERVAL=1
+fi
+echo "interval is：$_INTERVAL"
+
+if [[ -z "$_SCALE" ]]; then
+    _SCALE=20000
+fi
+echo "interval is：$_SCALE"
+
 start_time=1199116801
-end_time=1199116802
+end_time=`expr ${start_time} + ${_INTERVAL}`
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
+file_num=`expr ${_SEC} / ${_INTERVAL}`
 
-for i in `seq 1 $_SEC`
+for i in `seq 1 ${file_num}`
 do
-        start_time=`expr $start_time + 1`
-        end_time=`expr $end_time + 1`
+        start_time=`expr ${start_time} + ${_INTERVAL}`
+        end_time=`expr ${end_time} + ${_INTERVAL}`
         start_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
         end_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
         echo $start_str
-        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=20000 --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} | gzip > ${_OUTPUT}/es_seed_123_${start_time}.gz
+        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} | gzip > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.gz
 done   
