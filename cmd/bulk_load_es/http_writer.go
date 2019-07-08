@@ -53,13 +53,16 @@ var (
 // WriteLineProtocol writes the given byte slice to the HTTP server described in the Writer's HTTPWriterConfig.
 // It returns the latency in nanoseconds and any error received while sending the data over HTTP,
 // or it returns a new error if the HTTP response isn't as expected.
-func (w *HTTPWriter) WriteLineProtocol(body []byte, isGzip bool) (int64, error) {
+func (w *HTTPWriter) WriteLineProtocol(body []byte, isGzip bool, authorization string) (int64, error) {
 	req := fasthttp.AcquireRequest()
 	req.Header.SetContentTypeBytes(applicationNdJson)
 	req.Header.SetMethodBytes(post)
 	req.Header.SetRequestURIBytes(w.url)
 	if isGzip {
 		req.Header.Add("Content-Encoding", "gzip")
+	}
+	if authorization != "" {
+		req.Header.Add("Authorization", authorization)
 	}
 	req.SetBody(body)
 

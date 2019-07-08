@@ -50,6 +50,7 @@ var (
 	reportUser         string
 	reportPassword     string
 	reportTagsCSV      string
+	authorization      string
 )
 
 // Global vars
@@ -258,6 +259,8 @@ func init() {
 	flag.StringVar(&reportUser, "report-user", "", "User for host to send result metrics")
 	flag.StringVar(&reportPassword, "report-password", "", "User password for Host to send result metrics")
 	flag.StringVar(&reportTagsCSV, "report-tags", "", "Comma separated k:v tags to send  alongside result metrics")
+
+	flag.StringVar(&authorization, "header-authorization", "", "authorization in header k:v tags to send  alongside result metrics")
 
 	flag.Parse()
 
@@ -513,13 +516,13 @@ func processBatches(w *HTTPWriter, telemetrySink chan *report.Point, telemetryWo
 			compressedBatch := bufPool.Get().(*bytes.Buffer)
 			fasthttp.WriteGzip(compressedBatch, batch.Bytes())
 			bodySize = len(compressedBatch.Bytes())
-			_, err = w.WriteLineProtocol(compressedBatch.Bytes(), true)
+			_, err = w.WriteLineProtocol(compressedBatch.Bytes(), true, authorization)
 			// Return the compressed batch buffer to the pool.
 			compressedBatch.Reset()
 			bufPool.Put(compressedBatch)
 		} else {
 			bodySize = len(batch.Bytes())
-			_, err = w.WriteLineProtocol(batch.Bytes(), false)
+			_, err = w.WriteLineProtocol(batch.Bytes(), false, authorization)
 		}
 
 		if err != nil {
@@ -577,6 +580,9 @@ func createESTemplate(daemonUrl, indexTemplateName string, indexTemplateBodyTemp
 		return err
 	}
 	req.Header.Add("Content-Type", "application/json")
+	if authorization != "" {
+		req.Header.Add("Authorization", authorization)
+	}
 
 	client := &http.Client{}
 	resp, err := client.Do(req)
