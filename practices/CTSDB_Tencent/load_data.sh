@@ -31,6 +31,10 @@ do
         _SLEEP=$2
         shift
         ;;
+    --urls)
+        _URLS=$2
+        shift
+        ;;
     *)
         echo "$1 is not an option"
         exit
@@ -61,9 +65,15 @@ if [[ -z "$_SLEEP" ]]; then
     _SLEEP=0
 fi
 
+if [[ -z "$_URLS" ]]; then
+    _URLS="http://localhost:9200"
+fi
+
+$GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=${_FORMAT}-bulk --timestamp-start=2017-01-01T00:00:00Z --timestamp-end=2017-01-01T00:00:01Z | $GOPATH/bin/bulk_load_${_FORMAT}  -workers 10
+rm -f ${_INPUT}/load_log
 for file in ${_INPUT}/${_FORMAT}_seed_123_*
 do
     echo ${file}
-    cat ${_INPUT}/${file} | gunzip | $GOPATH/bin/bulk_load_${_FORMAT} --batch-size=${_BATCH_SIZE} --workers=${_WORKERS} > ${_INPUT}/load_log 2>&1 &
+    cat ${file} | gunzip | $GOPATH/bin/bulk_load_${_FORMAT} --batch-size=${_BATCH_SIZE} --workers=${_WORKERS} --urls=${_URLS} --do-db-create=false >> ${_INPUT}/load_log 2>&1 &
     sleep ${_SLEEP}
 done
