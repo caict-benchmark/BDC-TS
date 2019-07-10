@@ -6,9 +6,13 @@ do
     --help)
 
         echo "
-        --help     Show this help
-        --input    input data path
-        --format   which gen cmd, such as es, influx"
+        --help          Show this help
+        --input         input data path
+        --format        which gen cmd, such as es, influx
+        --batch-size    batch size
+        --workers       sync workers
+        --sleep         sleep time
+        --urls          database urls"
         exit
         ;;
     --input)
@@ -46,12 +50,12 @@ done
 if [[ -z "$_INPUT" ]]; then
     _INPUT="."
 fi
-echo "Generated data path：$_INPUT"
+echo "Generated data path:$_INPUT"
 
 if [[ -z "$_FORMAT" ]]; then
     _FORMAT="es"
 fi
-echo "Format is：$_FORMAT"
+echo "Format is:$_FORMAT"
 
 if [[ -z "$_BATCH_SIZE" ]]; then
     _BATCH_SIZE=5000
@@ -74,6 +78,6 @@ rm -f ${_INPUT}/load_log
 for file in ${_INPUT}/${_FORMAT}_seed_123_*
 do
     echo ${file}
-    cat ${file} | gunzip | $GOPATH/bin/bulk_load_${_FORMAT} --batch-size=${_BATCH_SIZE} --workers=${_WORKERS} --urls=${_URLS} --do-db-create=false >> ${_INPUT}/load_log 2>&1 &
+    cat ${file} | $GOPATH/bin/bulk_load_${_FORMAT} --batch-size=${_BATCH_SIZE} --workers=${_WORKERS} --urls=${_URLS} --do-db-create=false >> ${_INPUT}/load_log 2>&1 &
     sleep ${_SLEEP}
 done

@@ -6,10 +6,12 @@ do
     --help)
 
         echo "
-        --help     Show this help
-        --sec      how many sec's data do you want to generate
-        --output   where do you want to generate
-        --format   which gen cmd, such as es, influx"
+        --help      Show this help
+        --sec       how many sec's data do you want to generate
+        --output    where do you want to generate
+        --format    which gen cmd, such as es, influx
+        --interval  interval for one file
+        --scale     scale to generate"
         exit
         ;;
     --sec)
@@ -43,28 +45,32 @@ done
 if [[ -z "$_SEC" ]]; then
     _SEC=1
 fi
-echo "Seconds to generate：$_SEC "
+echo "Seconds to generate:$_SEC "
 
 if [[ -z "$_OUTPUT" ]]; then
     _OUTPUT="."
 fi
 mkdir -p ${_OUTPUT}
-echo "The path of data：$_OUTPUT"
+echo "The path of data:$_OUTPUT"
 
 if [[ -z "$_FORMAT" ]]; then
     _FORMAT="es"
 fi
-echo "Format is：$_FORMAT"
+echo "Format is:$_FORMAT"
 
 if [[ -z "$_INTERVAL" ]]; then
     _INTERVAL=1
 fi
-echo "interval is：$_INTERVAL"
+echo "interval is:$_INTERVAL"
 
 if [[ -z "$_SCALE" ]]; then
     _SCALE=20000
 fi
-echo "interval is：$_SCALE"
+echo "scale is:$_SCALE"
+
+if (("$_SEC" < "$_INTERVAL")); then
+    _INTERVAL=${_SEC}
+fi
 
 start_time=1199116801
 end_time=`expr ${start_time} + ${_INTERVAL}`
@@ -79,5 +85,5 @@ do
         start_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
         end_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
         echo $start_str
-        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} | gzip > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.gz
+        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.txt
 done   
