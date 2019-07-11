@@ -34,6 +34,10 @@ do
         _SCALE=$2
         shift
         ;;
+     --start-time)
+        _START_TIME=$2
+        shift
+        ;;
     *)
         echo "$1 is not an option"
         exit
@@ -72,7 +76,11 @@ if (("$_SEC" < "$_INTERVAL")); then
     _INTERVAL=${_SEC}
 fi
 
-start_time=1199116801
+if [[ -z "$_START_TIME" ]]; then
+    _START_TIME=1199116801
+fi
+
+start_time=${_START_TIME}
 end_time=`expr ${start_time} + ${_INTERVAL}`
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
