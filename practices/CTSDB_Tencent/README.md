@@ -61,7 +61,7 @@ sh gen_data.sh --sec 31536000 --output ./data_scale_20_year_1 --scale 20 --inter
 其余参数不改即可
 #### 2、导入数据到数据库
 ```powershell
-sh load_data.sh --input ./data_20 --format es --sleep 0
+sh load_data.sh --input ./data_scale_20_year_1 --format es --sleep 0
 ```
 --format 是你使用的数据库类型，如es、influx
 其余参数不改即可

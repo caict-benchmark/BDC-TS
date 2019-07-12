@@ -15,14 +15,6 @@
 ```powershell
 yum install golang
 ```
-配置GOROOT，修改~/.bash_profile，添加以下语句
-```powershell
-export GOROOT=/usr/local/go # 你安装的路径
-```
-执行
-```powershell
-source ~/.bash_profile
-```
 
 ### 2: 安装测试工程
 
@@ -31,7 +23,7 @@ source ~/.bash_profile
 #### 如果没有指定GOPATH，需要指定GOPATH
 
 ```powershell
-export GOPATH=/usr/local/go  # 指定工程目录，随便指定一个地方
+export GOPATH=/root/go  # 指定工程目录，随便指定一个地方
 ```
 
 #### 安装生成数据工具
