@@ -1,6 +1,7 @@
 package vehicle
 
 import (
+	"fmt"
 	. "github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
 	"time"
 )
@@ -93,8 +94,9 @@ func (v *VehicleSimulator) Next(p *Point) {
 
 	vehicle := &v.vehicles[v.currentVehicleIndex]
 
-	//// Populate host-specific tags:
-	//p.AppendTag(MachineTagKeys[0], host.Name)
+	// Populate host-specific tags: for example, LSVNV2182E2100001
+	vin := fmt.Sprintf("LSVNV2182E2%d", 100000 + v.currentVehicleIndex)
+	p.AppendTag([]byte("VIN"), []byte(vin))
 	//p.AppendTag(MachineTagKeys[1], host.Region)
 	//p.AppendTag(MachineTagKeys[2], host.Datacenter)
 	//p.AppendTag(MachineTagKeys[3], host.Rack)
