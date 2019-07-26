@@ -48,6 +48,9 @@ const (
 	DashboardRedisMemoryUtilization = "redis-memory-utilization"
 	DashboardSystemLoad             = "system-load"
 	DashboardThroughput             = "throughput"
+
+	VehicleReadTime = "vehicle-real-time"
+	VehicleAverage  = "vehicle-average"
 )
 
 // query generator choices {use-case, query-type, format}
@@ -128,6 +131,11 @@ var useCaseMatrix = map[string]map[string]map[string]bulkQueryGen.QueryGenerator
 		DashboardRedisMemoryUtilization: {"influx-http": influxdb.NewInfluxQLDashboardRedisMemoryUtilization},
 		DashboardSystemLoad:             {"influx-http": influxdb.NewInfluxQLDashboardSystemLoad},
 		DashboardThroughput:             {"influx-http": influxdb.NewInfluxQLDashboardThroughput},
+	},
+	common.UseCaseVehicle: {
+		VehicleReadTime: {
+			"es-http": elasticsearch.NewElasticSearchVehicleRealTime,
+		},
 	},
 }
 
@@ -220,11 +228,11 @@ func init() {
 		log.Fatal("invalid format specifier")
 	}
 
-	hourGroupInterval := 1
-
-	if queryType == DevOpsOneHostTwelveHours {
-		hourGroupInterval = 12
-	}
+	//hourGroupInterval := 1
+	//
+	//if queryType == DevOpsOneHostTwelveHours {
+	//	hourGroupInterval = 12
+	//}
 
 	// Parse timestamps:
 	var err error
@@ -245,12 +253,12 @@ func init() {
 		log.Fatal("\"timestamp-end\" must be grater than \"timestamp-start\"")
 	}
 
-	if duration.Nanoseconds()/time.Hour.Nanoseconds() < int64(hourGroupInterval) {
-		log.Fatal("Time interval must be greater than the grouping interval")
-	}
-	if duration.Nanoseconds() < queryInterval.Nanoseconds() {
-		log.Fatal("Query interval must be greater than the grouping interval")
-	}
+	//if duration.Nanoseconds()/time.Hour.Nanoseconds() < int64(hourGroupInterval) {
+	//	log.Fatal("Time interval must be greater than the grouping interval")
+	//}
+	//if duration.Nanoseconds() < queryInterval.Nanoseconds() {
+	//	log.Fatal("Query interval must be greater than the grouping interval")
+	//}
 
 	bulkQueryGen.QueryIntervalType = queryIntervalType
 	switch queryIntervalType {
