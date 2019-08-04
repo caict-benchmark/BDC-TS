@@ -31,7 +31,7 @@ import (
 )
 
 // Output data format choices:
-var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle"}
+var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "bcetsdb", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle"}
 
 // Program option vars:
 var (
@@ -193,6 +193,8 @@ func main() {
 		serializer = common.NewSerializerElastic("6x")
 	case "cassandra":
 		serializer = common.NewSerializerCassandra()
+    case "bcetsdb":
+        serializer = common.NewSerializerBceTSDB()
 	case "mongo":
 		serializer = common.NewSerializerMongo()
 	case "opentsdb":
