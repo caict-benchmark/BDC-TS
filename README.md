@@ -95,7 +95,7 @@ TODO
 ### 6、测试结束后清理数据
 以influx为例，其他的DB的清理方法欢迎补充
 ```powershell
-curl 'http://localhost:8086/query?q=drop%20database%20benchmark_db'
+curl -XPOST 'http://localhost:8086/query?q=drop%20database%20benchmark_db'
 ```
 
 ## 三、时序数据库基准测试(BDC-TS)

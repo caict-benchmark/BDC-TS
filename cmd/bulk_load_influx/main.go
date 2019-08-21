@@ -258,7 +258,7 @@ func main() {
 
 		if len(existingDatabases) > 0 {
 			if doAbortOnExist {
-				log.Fatalf("There are databases already in the data store. If you know what you are doing, run the command:\ncurl 'http://localhost:8086/query?q=drop%%20database%%20%s'\n", existingDatabases[0])
+				log.Fatalf("There are databases already in the data store. If you know what you are doing, run the command:\ncurl -XPOST 'http://localhost:8086/query?q=drop%%20database%%20%s'\n", existingDatabases[0])
 			} else {
 				log.Printf("Info: there are databases already in the data store.")
 			}
