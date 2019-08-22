@@ -54,8 +54,8 @@ func (d *ElasticSearchVehicle) realTimeQueries(qi bulkQuerygen.Query, timeRange 
 
 	body := new(bytes.Buffer)
 	mustExecuteTemplate(vehicleRealTimeQuery, body, VehicleRealTimeParams{
-		Start: interval.StartUnixNano(),
-		End:   interval.EndUnixNano(),
+		Start: interval.StartUnix() * 1000,
+		End:   interval.EndUnix() * 1000,
 		Size:  20000,
 		//Vin:   vin,
 	})
