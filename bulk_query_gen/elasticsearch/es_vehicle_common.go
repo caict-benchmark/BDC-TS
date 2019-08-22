@@ -54,9 +54,9 @@ func (d *ElasticSearchVehicle) realTimeQueries(qi bulkQuerygen.Query, timeRange 
 
 	body := new(bytes.Buffer)
 	mustExecuteTemplate(vehicleRealTimeQuery, body, VehicleRealTimeParams{
-		Start: interval.StartUnix(),
-		End:   interval.EndUnix(),
-		Size:  30000,
+		Start: interval.StartUnixNano(),
+		End:   interval.EndUnixNano(),
+		Size:  20000,
 		//Vin:   vin,
 	})
 
@@ -80,7 +80,7 @@ const rawVehicleRealTimeQuery = `
 {
   "query": {
     "bool": {
-      "must": [
+      "filter": [
         {
           "range": {
             "timestamp": {
@@ -92,6 +92,7 @@ const rawVehicleRealTimeQuery = `
       ]
     }
   },
+  "docvalue_fields": ["timestamp", "value4"],
   "size": {{.Size}}
 }
 `
