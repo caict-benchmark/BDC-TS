@@ -58,6 +58,8 @@ var (
 	debug int
 
 	cpuProfile string
+
+	startVinIndex int
 )
 
 // Parse args:
@@ -79,6 +81,8 @@ func init() {
 	flag.UintVar(&interleavedGenerationGroups, "interleaved-generation-groups", 1, "The number of round-robin serialization groups. Use this to scale up data generation to multiple processes.")
 
 	flag.StringVar(&cpuProfile, "cpu-profile", "", "Write CPU profile to `file`")
+
+	flag.IntVar(&startVinIndex, "start-vin-index", 100000, "which first vin do you want to generate")
 
 	flag.Parse()
 
@@ -177,6 +181,8 @@ func main() {
 
 			VehicleCount:  scaleVar,
 			VehicleOffset: scaleVarOffset,
+
+			StartVinIndex: startVinIndex,
 		}
 		sim = cfg.ToSimulator()
 	default:

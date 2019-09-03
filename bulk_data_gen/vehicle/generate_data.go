@@ -13,6 +13,8 @@ type VehicleSimulatorConfig struct {
 
 	VehicleCount int64
 	VehicleOffset int64
+
+	StartVinIndex int
 }
 
 func (d *VehicleSimulatorConfig) ToSimulator() *VehicleSimulator {
@@ -38,6 +40,8 @@ func (d *VehicleSimulatorConfig) ToSimulator() *VehicleSimulator {
 		timestampNow:   d.Start,
 		timestampStart: d.Start,
 		timestampEnd:   d.End,
+
+		startVinIndex: d.StartVinIndex,
 	}
 
 	return dg
@@ -58,6 +62,8 @@ type VehicleSimulator struct {
 	timestampNow   time.Time
 	timestampStart time.Time
 	timestampEnd   time.Time
+
+	startVinIndex int
 }
 
 func (g *VehicleSimulator) SeenPoints() int64 {
@@ -95,7 +101,7 @@ func (v *VehicleSimulator) Next(p *Point) {
 	vehicle := &v.vehicles[v.currentVehicleIndex]
 
 	// Populate host-specific tags: for example, LSVNV2182E2100001
-	vin := fmt.Sprintf("LSVNV2182E2%d", 100000 + v.currentVehicleIndex)
+	vin := fmt.Sprintf("LSVNV2182E2%d", v.startVinIndex + v.currentVehicleIndex)
 	p.AppendTag([]byte("VIN"), []byte(vin))
 	//p.AppendTag(MachineTagKeys[1], host.Region)
 	//p.AppendTag(MachineTagKeys[2], host.Datacenter)
