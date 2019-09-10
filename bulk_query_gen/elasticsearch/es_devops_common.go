@@ -164,7 +164,8 @@ const rawFleetQuery = `
         "range": {
           "timestamp": {
             "gte": "{{.Start}}",
-            "lt": "{{.End}}"
+            "lt": "{{.End}}",
+			"format": "strict_date_optional_time"
           }
         }
       },
@@ -198,7 +199,8 @@ const rawFleetGroupByHostnameQuery = `
         "range": {
           "timestamp": {
             "gte": "{{.Start}}",
-            "lt": "{{.End}}"
+            "lt": "{{.End}}",
+			"format": "strict_date_optional_time"
           }
         }
       },
@@ -234,41 +236,37 @@ const rawFleetGroupByHostnameQuery = `
 const rawHostsQuery = `
 {
   "size":0,
-  "aggs":{
-    "result":{
-      "filter":{
+  "query": {
         "bool":{
-          "filter":{
-            "range":{
-              "timestamp":{
-                "gte":"{{.Start}}",
-                "lt":"{{.End}}"
+          "filter":[
+		    {
+              "range":{
+                "timestamp":{
+                  "gte":"{{.Start}}",
+                  "lt":"{{.End}}",
+                  "format": "strict_date_optional_time"
+                }
               }
-            }
-          },
-          "should":[
+            },
             {
               "terms":{
                 "hostname": {{.JSONEncodedHostnames }}
               }
             }
-          ],
-	  "minimum_should_match" : 1
+		  ]
         }
+  },  
+  "aggs":{
+    "result2":{
+      "date_histogram":{
+        "field":"timestamp",
+        "interval":"{{.Bucket}}",
+        "format":"yyyy-MM-dd-HH"
       },
       "aggs":{
-        "result2":{
-          "date_histogram":{
-            "field":"timestamp",
-            "interval":"{{.Bucket}}",
-            "format":"yyyy-MM-dd-HH"
-          },
-          "aggs":{
-            "max_of_field":{
-              "max":{
-                "field":"{{.Field}}"
-              }
-            }
+        "max_of_field":{
+          "max":{
+            "field":"{{.Field}}"
           }
         }
       }
