@@ -98,6 +98,30 @@ TODO
 curl -XPOST 'http://localhost:8086/query?q=drop%20database%20benchmark_db'
 ```
 
+### 7、处理测试结果
+当测试结束后，导入测试会产生如下的测试结果，统计十分困难。所以这里提供一个处理脚本进行处理
+结果很多
+```
+Elastic Search version 5.6.4
+loaded 20000 items in 1.073012sec with 35 workers (mean point rate 18639.126855 items/sec, mean value rate 1118347.611283/s, 19.15MB/sec from stdin)
+daemon URLs: [http://100.121.150.106:9207 http://100.121.153.226:9207]
+```
+处理脚本位置：BDC-TS/practices/filter_load_data.go
+处理脚本的使用
+```bash
+filter_load_data.go --filePath "/Users/xxxx/xxx.txt"
+```
+
+统计结果如下面格式：
+```bash
+Items: 200000
+Time token: 10.638713 sec
+Workers: 35
+Items rate: 19103.367969 items/sec
+Values rate: 1146202.081250 values/sec
+Data rate: 19.631000 MB/sec
+```
+
 ## 三、时序数据库基准测试(BDC-TS)
 我们工程的核心，是实现BDC-TS的测试。BDC-TS测试方案详见(CTSDB最佳实践)：https://github.com/caict-benchmark/BDC-TS/blob/master/practices/CTSDB_Tencent/README.md  
 大家可以参考这个最佳实践进行测试
