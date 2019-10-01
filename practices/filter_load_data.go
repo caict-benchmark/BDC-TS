@@ -1,4 +1,4 @@
-package practices
+package main
 
 import (
 	"bufio"
