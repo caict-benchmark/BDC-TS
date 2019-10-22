@@ -6,6 +6,10 @@ import (
 	"time"
 )
 
+func init() {
+	rand.Seed(time.Now().UnixNano())
+}
+
 var (
 	EntityByteString      = []byte("vehicle")       // heap optimization
 	EntityTotalByteString = []byte("vehicle-total") // heap optimization
@@ -123,7 +127,6 @@ func (m *EntityMeasurement) ToPoint(p *Point) bool {
 	//	p.AppendField(EntityFieldKeys[i], m.distributions[i].Get())
 	//}
 	for i := range m.values {
-		rand.Seed(time.Now().UnixNano())
 		index := rand.Intn(100)
 		p.AppendField(EntityFieldKeys[i], randomNumbers[i][index])
 	}
