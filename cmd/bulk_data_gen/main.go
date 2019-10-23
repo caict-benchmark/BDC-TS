@@ -199,8 +199,10 @@ func main() {
 		serializer = common.NewSerializerElastic("6x")
 	case "cassandra":
 		serializer = common.NewSerializerCassandra()
-    case "bcetsdb":
-        serializer = common.NewSerializerBceTSDB()
+	case "bcetsdb":
+		serializer = common.NewSerializerBceTSDB()
+	case "bcetsdb-bulk":
+		serializer = common.NewSerializerBceTSDBBulk()
 	case "mongo":
 		serializer = common.NewSerializerMongo()
 	case "opentsdb":
