@@ -13,12 +13,8 @@ func NewSerializerBceTSDBBulk() *serializerBceTSDBBulk {
 
 func (s *serializerBceTSDBBulk) SerializePoint(w io.Writer, p *Point) (err error) {
 	buf := scratchBufPool.Get().([]byte)
-	// buf = append(buf, p.MeasurementName...)
 
 	for i := 0; i < len(p.TagKeys); i++ {
-		// buf = append(buf, ',')
-		// buf = append(buf, p.TagKeys[i]...)
-		// buf = append(buf, '=')
 		buf = append(buf, p.TagValues[i]...)
 	}
 
@@ -27,16 +23,8 @@ func (s *serializerBceTSDBBulk) SerializePoint(w io.Writer, p *Point) (err error
 	}
 
 	for i := 0; i < len(p.FieldKeys); i++ {
-		// buf = append(buf, p.FieldKeys[i]...)
-		// buf = append(buf, '=')
-
 		v := p.FieldValues[i]
 		buf = fastFormatAppend(v, buf, false)
-
-		//switch v.(type) {
-		//case int, int64:
-		//	buf = append(buf, 'i')
-		//}
 
 		if i+1 < len(p.FieldKeys) {
 			buf = append(buf, ',')
