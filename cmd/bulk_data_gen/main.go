@@ -31,7 +31,7 @@ import (
 )
 
 // Output data format choices:
-var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "bcetsdb", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle"}
+var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "bcetsdb", "bcetsdb-bulk", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle"}
 
 // Program option vars:
 var (
