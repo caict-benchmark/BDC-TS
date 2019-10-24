@@ -173,9 +173,12 @@ func scan(linesPerBatch int) int64 {
 	var n int
 	var itemsRead int64
 
+	openbracket := []byte("{\"datapoints\":[")
+	closebracket := []byte("]}")
 	commaspace := []byte(", ")
 	newline := []byte("\n")
 
+	zw.Write(openbracket)
 	zw.Write(newline)
 
 	scanner := bufio.NewScanner(bufio.NewReaderSize(os.Stdin, 4*1024*1024))
@@ -191,14 +194,14 @@ func scan(linesPerBatch int) int64 {
 		n++
 		if n >= linesPerBatch {
 			zw.Write(newline)
-			//zw.Write(closebracket)
+			zw.Write(closebracket)
 			zw.Close()
 
 			batchChan <- buf
 
 			buf = bufPool.Get().(*bytes.Buffer)
 			zw = gzip.NewWriter(buf)
-			//zw.Write(openbracket)
+			zw.Write(openbracket)
 			zw.Write(newline)
 			n = 0
 		}
@@ -211,7 +214,7 @@ func scan(linesPerBatch int) int64 {
 	// Finished reading input, make sure last batch goes out.
 	if n > 0 {
 		zw.Write(newline)
-		//zw.Write(closebracket)
+		zw.Write(closebracket)
 		zw.Close()
 		batchChan <- buf
 	}
