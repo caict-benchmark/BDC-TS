@@ -19,7 +19,7 @@ func (s *serializerBceTSDBBulk) SerializePoint(w io.Writer, p *Point) (err error
 	}
 
 	if len(p.FieldKeys) > 0 {
-		buf = append(buf, ' ')
+		buf = append(buf, ',')
 	}
 
 	for i := 0; i < len(p.FieldKeys); i++ {
@@ -31,8 +31,8 @@ func (s *serializerBceTSDBBulk) SerializePoint(w io.Writer, p *Point) (err error
 		}
 	}
 
-	buf = append(buf, ' ')
-	buf = fastFormatAppend(p.Timestamp.UTC().UnixNano(), buf, true)
+	buf = append(buf, ',')
+	buf = fastFormatAppend(p.Timestamp.UTC().UnixNano()/1e6, buf, true)
 	buf = append(buf, '\n')
 	_, err = w.Write(buf)
 
