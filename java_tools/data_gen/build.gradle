@@ -1,0 +1,21 @@
+allprojects {
+    apply plugin: 'java'
+
+    group 'iot.tsdb'
+    version '1.0-SNAPSHOT'
+
+    sourceCompatibility = 1.8
+
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+        compileOnly 'org.projectlombok:lombok:1.18.2'
+        compile group: 'com.google.guava', name: 'guava', version: '27.1-jre'
+        compile group: 'ch.qos.logback', name: 'logback-core', version: '1.2.3'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.2.3'
+    }
+}
+

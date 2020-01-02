@@ -1,0 +1,27 @@
+plugins {
+    id 'application'
+}
+
+group 'iot.tsdb'
+version '1.0-SNAPSHOT'
+
+
+mainClassName = 'iot.tsdb.test.data.Main'
+
+sourceCompatibility = 1.8
+
+jar {
+    manifest {
+        attributes "Main-Class" : "iot.tsdb.test.data.Main"
+    }
+    from {
+        configurations.compile.collect {
+            it.isDirectory() ? it : zipTree(it)
+        }
+    }
+}
+
+dependencies {
+    compile group: 'com.beust', name: 'jcommander', version: '1.72'
+}
+
