@@ -25,12 +25,14 @@ public class DataGenerator extends AbstractIterator<String> {
 
     private final Random random;
     protected final DataSetMeta meta;
+    private final int userType;
 
     private int currentUserCount;
     private int currentTimeSeriesIndex;
 
-    public DataGenerator(DataSetMeta meta, long seed) {
+    public DataGenerator(DataSetMeta meta, long seed, int userType) {
         this.meta = meta;
+        this.userType = userType;
         random = new Random(seed);
     }
 
@@ -48,7 +50,7 @@ public class DataGenerator extends AbstractIterator<String> {
             nextUser();
         }
 
-        return toLine(timestamp, userId);
+        return toLine(timestamp, userId, userType);
     }
 
 
@@ -65,7 +67,7 @@ public class DataGenerator extends AbstractIterator<String> {
         currentUserCount++;
     }
 
-    private String toLine(long timestamp, int cuserid) {
+    private String toLine(long timestamp, int cuserid, int userType) {
         LineBuilder lineBuilder = new LineBuilder();
         lineBuilder.append(timestamp)
                 .append(cuserid)
@@ -73,7 +75,7 @@ public class DataGenerator extends AbstractIterator<String> {
                 .append(getDistrict(cuserid))
                 .append(getSystem(cuserid))
                 .append(getMpid(cuserid))
-                .append(getBjlx(cuserid))
+                .append(getBjlx(cuserid, userType))
                 .append(getLine(cuserid))
                 .append(getArea(cuserid));
 

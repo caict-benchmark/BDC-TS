@@ -25,6 +25,7 @@ public class WriteToFileRunner implements Runnable {
     private final String fileName;
     private final DataSetMeta meta;
     private final long seed;
+    private final int userType;
 
     private volatile BlockingQueue<List<String>> queue;
     private ExecutorService dataGenerateService;
@@ -42,7 +43,7 @@ public class WriteToFileRunner implements Runnable {
     }
 
     private void generateData() {
-        DataGenerator generator = new DataGenerator(meta, seed);
+        DataGenerator generator = new DataGenerator(meta, seed, userType);
         List<String> list = new ArrayList<>(batchSize);
         while (generator.hasNext()) {
             list.add(generator.next());

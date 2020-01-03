@@ -36,6 +36,8 @@ public abstract class AbstractGenerateCommand implements Runnable {
     protected int userCount = 90000000;
     @Parameter(names = "--startUserId")
     protected int startUserId = 0;
+    @Parameter(names = "--userType", description = "0 for low voltage, 1 for medium and high voltage")
+    protected int userType;
 
 
     private ExecutorService executorService;
@@ -52,9 +54,9 @@ public abstract class AbstractGenerateCommand implements Runnable {
             int startId = countPerFile * i + startUserId;
             int count = i == (fileCount - 1) ? userCount - countPerFile * i : countPerFile;
             int endId = startId + count - 1;
-            DataSetMeta diYaMeta = buildDataSetMeta(startId, endId);
+            DataSetMeta meta = buildDataSetMeta(startId, endId);
 
-            WriteToFileRunner runner = new WriteToFileRunner(batchSize, queueSize, getFileName(i), diYaMeta, seed);
+            WriteToFileRunner runner = new WriteToFileRunner(batchSize, queueSize, getFileName(i), meta, seed, userType);
             executorService.submit(runner);
         }
         executorService.shutdown();

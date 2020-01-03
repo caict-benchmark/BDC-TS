@@ -13,6 +13,9 @@ public class DataConfiguration {
     public static String LINE = "line";
     public static String AREA = "area";
 
+    private static final int LOW_VOLTAGE = 0;
+    private static final int MEDIUM_AND_HIGH_VOLTAGE = 1;
+
     public static String[] province = {"gd", "gx", "hn", "gz", "yn", "gz", "sz"};
     public static String[][] districts = {
             {"zhuhai", "shantou", "foshan", "shaoguan", "zhanjiang", "zhaoqing", "jiangmen", "maoming", "huizhou",
@@ -55,7 +58,12 @@ public class DataConfiguration {
         return "TMR";
     }
 
-    public static String getBjlx(int userId) {
+    public static String getBjlx(int userId, int userType) {
+        if (userType == LOW_VOLTAGE) {
+            return "3";
+        } else if (userType == MEDIUM_AND_HIGH_VOLTAGE) {
+            return String.valueOf(1 + userId % 2);
+        }
         return "3";
     }
 
