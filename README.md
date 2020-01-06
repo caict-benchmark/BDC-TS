@@ -145,3 +145,6 @@ Data rate: 19.631000 MB/sec
 如果你的数据库不是基于InfluxDB、Elasticsearch 、Cassandra 、MongoDB、OpenTSDB中的任何一种，或者数据格式与这些数据库不一致，请自行添加数据库类型。或者联系gdchaochao进行协助  
 
 方法是：仿照bulk_load、bulk_query_gen、cmd文件夹下的代码，重写一个数据库模型
+
+## 五、java工具使用
+java_tools目录下是使用java编写的部分工具，独立放在一个目录是为了和go编写的工具区分开来，java_tools目录下的工程目前只有一个数据生成工具，可以生成电网测试数据，格式是csv，使用方法见https://github.com/caict-benchmark/BDC-TS/blob/master/java_tools/data_gen/README.MD
