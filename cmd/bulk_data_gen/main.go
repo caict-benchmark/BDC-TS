@@ -8,6 +8,7 @@
 // OpenTSDB bulk HTTP format
 // TimescaleDB SQL INSERT and binary COPY FROM
 // Graphite plaintext format
+// Alitsdb HTTP and RPC format
 //
 // Supported use cases:
 // Devops: scale_var is the number of hosts to simulate, with log messages
@@ -18,20 +19,21 @@ import (
 	"bufio"
 	"flag"
 	"fmt"
-	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
-	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/dashboard"
-	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/devops"
-	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/iot"
-	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/vehicle"
 	"log"
 	"os"
 	"runtime/pprof"
 	"strings"
 	"time"
+
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/common"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/dashboard"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/devops"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/iot"
+	"github.com/caict-benchmark/BDC-TS/bulk_data_gen/vehicle"
 )
 
 // Output data format choices:
-var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "bcetsdb", "bcetsdb-bulk", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle"}
+var formatChoices = []string{"influx-bulk", "es-bulk", "es-bulk6x", "cassandra", "mongo", "opentsdb", "bcetsdb", "bcetsdb-bulk", "timescaledb-sql", "timescaledb-copyFrom", "graphite-line", "graphite-pickle", "alitsdb-http", "alitsdb"}
 
 // Program option vars:
 var (
@@ -213,6 +215,10 @@ func main() {
 		serializer = common.NewSerializerTimescaleBin()
 	case "graphite-line":
 		serializer = common.NewSerializerGraphiteLine()
+	case "alitsdb-http":
+		serializer = common.NewSerializerAliTSDBHttp()
+	case "alitsdb":
+		serializer = common.NewSerializerAliTSDB()
 	default:
 		panic("unreachable")
 	}
@@ -220,11 +226,23 @@ func main() {
 	var currentInterleavedGroup uint = 0
 
 	t := time.Now()
-	point := common.MakeUsablePoint()
 	n := int64(0)
+	last := time.Now()
+	log.Printf("%d points\n", sim.Total())
 	for !sim.Finished() {
+		point := common.MakeUsablePoint()
 		sim.Next(point)
 		n++
+
+		if n % 10000 == 0 {
+			now := time.Now()
+			dur := now.Sub(last).Milliseconds()
+			remain := sim.Total() - sim.SeenPoints()
+			fmt.Fprintf(os.Stderr, "%d/%d %d %dms remain_time: %ds\n ",
+				n, sim.Total(), remain, dur, dur * remain / 10000 / 1000)
+			last = now
+		}
+
 		// in the default case this is always true
 		if currentInterleavedGroup == interleavedGenerationGroupID {
 			//println("printing")
@@ -234,13 +252,14 @@ func main() {
 			}
 
 		}
-		point.Reset()
 
 		currentInterleavedGroup++
 		if currentInterleavedGroup == interleavedGenerationGroups {
 			currentInterleavedGroup = 0
 		}
 	}
+	log.Printf("%d - %d points\n", n, sim.Total())
+
 	if n != sim.SeenPoints() {
 		panic(fmt.Sprintf("Logic error, written %d points, generated %d points", n, sim.SeenPoints()))
 	}
