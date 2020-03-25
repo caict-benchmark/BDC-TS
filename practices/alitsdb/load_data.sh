@@ -100,15 +100,6 @@ if [[ -z "$_DOLOAD" ]]; then
     _DOLOAD="true"
 fi
 
-if [ ${_FORMAT} = 'alitsdb' -o ${_FORMAT} = 'alitsdb-http' ]; then
-    if [ ${_FORMAT} = 'alitsdb' ]; then
-        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=${_FORMAT} --timestamp-start=2017-01-01T00:00:00Z --timestamp-end=2017-01-01T00:00:01Z | $GOPATH/bin/bulk_load_${_FORMAT} -hosts=${_HOSTS} -port=${_PORT} -do-load=$_DOLOAD -json-format=false  -viahttp=false
-    else
-        $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=${_FORMAT} --timestamp-start=2017-01-01T00:00:00Z --timestamp-end=2017-01-01T00:00:01Z | $GOPATH/bin/bulk_load_${_FORMAT} -hosts=${_HOSTS} -port=${_PORT} -do-load=$_DOLOAD -json-format=true -viahttp=true
-    fi 
-else
-    $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=1 --format=${_FORMAT}-bulk --timestamp-start=2017-01-01T00:00:00Z --timestamp-end=2017-01-01T00:00:01Z | $GOPATH/bin/bulk_load_${_FORMAT}  -workers 10
-fi
 rm -f ${_INPUT}/load_log
 for file in ${_INPUT}/${_FORMAT}_seed_123_*
 do
