@@ -28,6 +28,7 @@ type LineProtocolWriter interface {
 	//WriteLineProtocol([]byte) (latencyNs int64, err error)
 	ProcessBatches(doLoad bool, bufPool *sync.Pool, wg *sync.WaitGroup, backoff time.Duration, backingOffChan chan bool)
 	PutPoint(point *alitsdb_serialization.MputRequest)
+	Close()
 }
 
 // HTTPWriterConfig is the configuration used to create an HTTPWriter.
@@ -63,6 +64,10 @@ var (
 )
 
 func (w *HTTPWriter) PutPoint(point *alitsdb_serialization.MputRequest) {
+}
+
+func (w *HTTPWriter) Close() {
+
 }
 
 // WriteLineProtocol writes the given byte slice to the HTTP server described in the Writer's HTTPWriterConfig.

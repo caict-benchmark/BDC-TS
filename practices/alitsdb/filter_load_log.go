@@ -30,10 +30,11 @@ func (is TimeSlice) Len() int {
 	return len(is)
 }
 
-func filterLoadLog(fileName string) ([]string, int64, int64, float64, time.Time, time.Time, int, float64, float64) {
+func filterLoadLog(fileName string) ([]string, int64, int64, float64, time.Time, time.Time, int, int, float64, float64) {
 	f, err := os.Open(fileName)
 	if err != nil {
-		return nil, 0, 0, 0, time.Unix(0, 0), time.Unix(0, 0), 0, 0, 0
+		fmt.Printf("failed to open \"%s\", error: %v\n", fileName, err)
+		return nil, 0, 0, 0, time.Unix(0, 0), time.Unix(0, 0), 0, 0, 0, 0
 	}
 	buf := bufio.NewReader(f)
 	var result []string
@@ -55,11 +56,11 @@ func filterLoadLog(fileName string) ([]string, int64, int64, float64, time.Time,
 		if err != nil {
 			if err == io.EOF { //读取结束，会报EOF
 				earlyStartTime, lateEndTime = getEarlyStartAndLateEnd(startTimes, endTimes, fileName)
-				return result, items, values, timeToken, earlyStartTime, lateEndTime, workers / count, pointsRate / float64(count), valuesRate / float64(count)
+				return result, items, values, timeToken, earlyStartTime, lateEndTime, count, workers / count, pointsRate / float64(count), valuesRate / float64(count)
 			}
 			fmt.Printf("error occurred: %v\n", err)
 			earlyStartTime, lateEndTime = getEarlyStartAndLateEnd(startTimes, endTimes, fileName)
-			return result, items, values, timeToken, earlyStartTime, lateEndTime, workers / count, pointsRate / float64(count), valuesRate / float64(count)
+			return result, items, values, timeToken, earlyStartTime, lateEndTime, count, workers / count, pointsRate / float64(count), valuesRate / float64(count)
 		}
 		result = append(result, line)
 		flySnowRegexp := regexp.MustCompile(regx)
@@ -101,15 +102,16 @@ func main() {
 	var filePath string
 	flag.StringVar(&filePath, "filePath", "unknown", "Input result file path")
 	flag.Parse()
-	_, items, values, timeToken, start, end, workers, itemsRate, valueRate := filterLoadLog(filePath)
+	_, items, values, _, start, end, processes, workers, itemsRate, valueRate := filterLoadLog(filePath)
 	startTimestamp := start.Format(common.DateTimeStdFormat)
 	endTimestamp := end.Format(common.DateTimeStdFormat)
 	fmt.Printf("Items written: %d\n", items)
 	fmt.Printf("Values written: %d\n", values)
-	fmt.Printf("Time by all process taken: %f sec\n", timeToken)
 	fmt.Printf("Writing started at %s\n", startTimestamp)
 	fmt.Printf("Writing ended at %s\n", endTimestamp)
-	fmt.Printf("Workers: %d\n", workers)
+	fmt.Printf("Overall time cost: %d secs\n", end.Sub(start)/time.Second)
+	fmt.Printf("Count of processes: %d\n", processes)
+	fmt.Printf("Workers (per-process): %d\n", workers)
 	fmt.Printf("Overall items rate: %f items/sec\n", float64(items)/float64(end.Sub(start)/time.Second))
 	fmt.Printf("Overall values rate: %f values/sec\n", float64(values)/float64(end.Sub(start)/time.Second))
 	fmt.Printf("Average items rate (per-process): %f items/sec\n", itemsRate)

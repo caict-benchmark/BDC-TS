@@ -82,15 +82,22 @@ if [[ -z "$_START_TIME" ]]; then
 fi
 
 start_time=${_START_TIME}
-end_time=`expr ${start_time} + ${_INTERVAL}`
+end_time=`expr ${start_time} + ${_SEC}`
+echo "Generating data of the time range:"
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
 echo $(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
 file_num=`expr ${_SEC} / ${_INTERVAL}`
 
 for i in `seq 1 ${file_num}`
 do
-        start_time=`expr ${start_time} + ${_INTERVAL}`
-        end_time=`expr ${end_time} + ${_INTERVAL}`
+        if [ $i -eq 1 ]
+        then
+            # start time as the ${_START_TIME}
+            end_time=`expr ${start_time} + ${_INTERVAL}`
+        else
+            start_time=`expr ${start_time} + ${_INTERVAL}`
+            end_time=`expr ${end_time} + ${_INTERVAL}`
+        fi
         start_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$start_time)
         end_str=$(date '+%Y-%m-%dT%H:%M:%SZ' -d @$end_time)
         echo $start_str
@@ -100,5 +107,5 @@ do
         else
             echo "$GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.txt"
             nohup $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.txt 2>>/tmp/gen_logs &
-        fi 
+        fi
 done   
