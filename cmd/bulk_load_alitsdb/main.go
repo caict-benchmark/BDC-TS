@@ -34,6 +34,7 @@ import (
 var (
 	hosts          string
 	port           int
+	debug_port     int
 	useCase        string
 	daemonUrls     []string
 	workers        int
@@ -85,6 +86,7 @@ var (
 func init() {
 	flag.StringVar(&hosts, "hosts", "127.0.0.1", "AliTSDB hosts, comma-separated. Will be used in a round-robin fashion.")
 	flag.IntVar(&port, "port", 8242, "AliTSDB listening port")
+	flag.IntVar(&debug_port, "debug_port", 80, "debug listening port")
 	flag.StringVar(&useCase, "use-case", common.UseCaseChoices[3], fmt.Sprintf("Use case to model. (choices: %s)", strings.Join(common.UseCaseChoices, ", ")))
 	flag.IntVar(&batchSize, "batch-size", 1000, "Batch size (input lines).")
 	flag.IntVar(&workers, "workers", 1, "Number of parallel requests to make.")
@@ -146,8 +148,8 @@ func init() {
 }
 
 func startHttpServer() {
-	if err := http.ListenAndServe(":80", nil); err != nil {
-		log.Fatalf("HTTP Server Failed: %v", err)
+	if err := http.ListenAndServe(fmt.Sprintf(":%d", debug_port), nil); err != nil {
+		fmt.Printf("HTTP Server Failed: %v\n", err)
 	}
 }
 
@@ -213,6 +215,7 @@ func main() {
 
 	for i := 0; i < workers; i++ {
 		writer := writers[i%len(daemonUrls)]
+		workersGroup.Add(1)
 		go writer.ProcessBatches(doLoad, &bufPool, &workersGroup, backoff, backingOffChan)
 	}
 
@@ -221,8 +224,10 @@ func main() {
 	if debug {
 		// monitoring the channel
 		go channelMonitor()
-		go startHttpServer()
+		//go startHttpServer()
 	}
+
+	go startHttpServer()
 
 	start := time.Now()
 	var itemsRead, valuesRead int64
@@ -253,6 +258,11 @@ func main() {
 	<-inputDone
 	close(batchChan)
 	close(batchPointsChan)
+
+	/* close writers */
+	for _, w := range writers {
+		w.Close()
+	}
 
 	workersGroup.Wait()
 
@@ -361,6 +371,8 @@ func scanJSONfileForHTTP(linesPerBatch int) (int64, int64) {
 // scan reads one line at a time from stdin.
 // When the requested number of lines per batch is met, send a batch over batchChan for the workers to write.
 func scanBinaryfile(itemsPerBatch int) (int64, int64) {
+	log.Println("start load datas")
+	defer log.Println("end load datas")
 	var itemsRead, bytesRead int64
 	var err error
 	var size uint64
@@ -479,6 +491,7 @@ func scanBinaryfile(itemsPerBatch int) (int64, int64) {
 	}
 
 	tasksGroup.Wait()
+	close(recv)
 	// Closing inputDone signals to the application that we've read everything and can now shut down.
 	close(inputDone)
 

@@ -107,5 +107,5 @@ do
         else
             echo "$GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.txt"
             nohup $GOPATH/bin/bulk_data_gen --seed=123 --use-case=vehicle --scale-var=${_SCALE} --format=${_FORMAT}-bulk --timestamp-start=${start_str}  --timestamp-end=${end_str} > ${_OUTPUT}/${_FORMAT}_seed_123_${start_time}.txt 2>>/tmp/gen_logs &
-        fi 
+        fi
 done   
